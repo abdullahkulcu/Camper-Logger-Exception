@@ -5,14 +5,18 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Camper-Logger-Exception",
-    version="0.1.1",
+    version="0.1.2",
     author="Abdullah KULCU",
     author_email="abdullahkulcu@outlook.com",
-    description="Python logging and exception catcher library for lazy",
+    description="Python logging and exception catcher library for lazy peoples",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/abdullahkulcu/Camper-Logger-Exception",
-    packages=setuptools.find_packages(),
+    packages=['Camper-Logger-Exception'],
+    install_requires=[
+        'colorlog',
+        "requests"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",

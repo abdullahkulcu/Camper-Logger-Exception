@@ -1,7 +1,7 @@
-from Camper.ExceptionCatcher import exception_catcher
+from Camper.ExceptionCatcher import CamperException
 from Camper.Log import CamperLogger
 
-logger = CamperLogger(__name__, debug=True, record=True)
+logger = CamperLogger(logger_name=__name__, debug=True, record=True, log_path="/usr/log")
 
 
 def ptask(value):
@@ -12,11 +12,10 @@ def error_task(err):
     logger.warning(message=err)
 
 
-@exception_catcher(default=1, callback=ptask, error_callback=error_task, record=True)
-def example():
-    a = 1 / 0
-    print(a)
+@CamperException.exception_catcher(default=5, record=False, post_endpoint="https://b03ed604.ngrok.io/create/log",
+                                   extra="outbox")
+def example(value, callback):
+    print(None["1"])
 
 
-if __name__ == "__main__":
-    example
+example(0, "dwdwd")

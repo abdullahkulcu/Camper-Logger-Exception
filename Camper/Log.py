@@ -5,8 +5,8 @@ from .Static import *
 
 class CamperLogger:
 
-    def __init__(self, function_name, **kwargs):
-        self.name = function_name
+    def __init__(self, logger_name, **kwargs):
+        self.name = logger_name
         self.debug = kwargs.get('debug')
         self.log_path = kwargs.get('log_path')
         self.record = kwargs.get('record')
