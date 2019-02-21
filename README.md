@@ -40,14 +40,20 @@ and to make the process easier.
 
 
 **default :**  if If the function receives an error, the value to return. (default None) - Optional  
+
 **default_callback :** Sends the default value to the specified function. - Optional 
+
  **error_callback :**  Sends the error message to the specified function. - Optional  
+
 **log_path :** The path of the saved log file (default project folder ) - Optional
+
 **record :** If it is called True, it saves the records to the file. - Optional
+
 **post_endpoint :** If post_endpoint is added, it will post the message text to the url. (Post Payload {"error":" Error message"}) - Optional
+
 **extra_data :** Extra data added to post_endpoint (key extra) - Optional
   
- ######Contribute:
+ ###### Contribute:
 Send me more features if you want it
 
 We need your Help to become it to better.
