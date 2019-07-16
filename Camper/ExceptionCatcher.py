@@ -1,9 +1,12 @@
 import requests
 import asyncio
+from raven import Client
 
 
 class CamperException:
-    def __init__(self):
+    @classmethod
+    def __init__(self, sentry_dns=None):
+        self.dns = sentry_dns
         pass
 
     @staticmethod
@@ -44,10 +47,23 @@ class CamperException:
                         func=func.__name__,
                         error=e
                     )
+                    if cls.dns is not None:
+                        sentry = Client(cls.dns)
+                        func_name = str(func.__name__)
+                        file_name = str(func.__code__.co_filename)
+                        annotations = str(func.__annotations__)
+                        sentry.tags_context({
+                            'function_name': func_name,
+                            'related_file_name': file_name,
+                            "annotations": annotations
+                        })
+                        sentry.captureException()
                     if post_endpoint is not None and type(post_endpoint) == str and len(post_endpoint) > 0:
                         loop = asyncio.get_event_loop()
                         loop.run_until_complete(
-                            cls.__post_error_message(url=post_endpoint, message=str(e), extra=extra_data))
+                            cls.__post_error_message(url=post_endpoint,
+                                                      message=str(e),
+                                                      extra=extra_data))
                         loop.close()
                     if error_callback is not None:
                         error_callback(e)

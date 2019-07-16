@@ -1,10 +1,16 @@
 import logging
 import colorlog
 from .Static import *
+from Camper.ExceptionCatcher import CamperException
+
+
+def error_handler(err):
+    print(err)
 
 
 class CamperLogger:
 
+    @CamperException.exception_catcher(error_callback=error_handler)
     def __init__(self, logger_name, **kwargs):
         self.name = logger_name
         self.debug = kwargs.get('debug')
@@ -13,6 +19,7 @@ class CamperLogger:
         self.logger = None
         self.__init_logger()
 
+    @CamperException.exception_catcher(error_callback=error_handler)
     def __init_logger(self):
         colorlog.basicConfig(format=colorlog_format)
         self.logger = logging.getLogger(self.name)
@@ -25,10 +32,13 @@ class CamperLogger:
         elif not self.log_path.endswith('/'):
             self.log_path += '/'
 
-    def warning(self, message):
+    @CamperException.exception_catcher(error_callback=error_handler)
+    def warning(self, message, file_name="app-warning"):
         if self.logger is not None and message is not None:
-            if self.record is not None and self.record:
-                fh = logging.FileHandler(self.log_path + 'app-warning.log')
+            if self.record:
+                file_name = "app-warning" if file_name is None or file_name == "" else file_name
+                file_name = file_name.replace(".", "")
+                fh = logging.FileHandler(self.log_path + (file_name + '.log'))
                 fh.setLevel(logging.WARNING)
                 formatter = logging.Formatter(log_format)
                 fh.setFormatter(formatter)
@@ -38,10 +48,13 @@ class CamperLogger:
             else:
                 self.logger.warning(message)
 
-    def error(self, message):
+    @CamperException.exception_catcher(error_callback=error_handler)
+    def error(self, message, file_name="app-error"):
         if self.logger is not None and message is not None:
-            if self.record is not None and self.record:
-                fh = logging.FileHandler(self.log_path + 'app-error.log')
+            if self.record:
+                file_name = "app-error" if file_name is None or file_name == "" else file_name
+                file_name = file_name.replace(".", "")
+                fh = logging.FileHandler(self.log_path + (file_name + '.log'))
                 fh.setLevel(logging.ERROR)
                 formatter = logging.Formatter(log_format)
                 fh.setFormatter(formatter)
@@ -51,10 +64,13 @@ class CamperLogger:
             else:
                 self.logger.error(message)
 
-    def info(self, message):
+    @CamperException.exception_catcher(error_callback=error_handler)
+    def info(self, message, file_name="app-info"):
         if self.logger is not None and message is not None:
-            if self.record is not None:
-                fh = logging.FileHandler(self.log_path + 'app-info.log')
+            if self.record:
+                file_name = "app-info" if file_name is None or file_name == "" else file_name
+                file_name = file_name.replace(".", "")
+                fh = logging.FileHandler(self.log_path + (file_name + '.log'))
                 fh.setLevel(logging.INFO)
                 formatter = logging.Formatter(log_format)
                 fh.setFormatter(formatter)

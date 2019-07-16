@@ -58,8 +58,10 @@ Send me more features if you want it
 
 We need your Help to become it to better.
 
+ ###### EDIT:
+ 07-16-2019 : Add Sentry Capture Exception Feature
+ for using - CamperException(sentry_dns="http://xxxxx.sentry.io/xxxxx") 
+
 ###### Contact:
 
 >abdullahkulcu@outlook.com 
-
->gokhanbahadir36@gmail.com
